@@ -1,0 +1,49 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Login</title>
+    <style>
+        .container { max-width: 400px; margin: 50px auto; padding: 20px; }
+        .form-group { margin-bottom: 15px; }
+        input { width: 100%; padding: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Admin Login</h2>
+        <form onsubmit="return handleAdminLogin(event)">
+            <div class="form-group">
+                <input type="email" id="admin-email" placeholder="Email" required>
+            </div>
+            <div class="form-group">
+                <input type="password" id="admin-password" placeholder="Password" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <script>
+        async function handleAdminLogin(e) {
+            e.preventDefault();
+            const credentials = {
+                email: document.getElementById('admin-email').value,
+                password: document.getElementById('admin-password').value
+            };
+
+            const response = await fetch('admin_login.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(credentials)
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                window.location.href = 'adminmain.html';
+            } else {
+                alert(result.message);
+            }
+        }
+    </script>
+</body>
+</html>
